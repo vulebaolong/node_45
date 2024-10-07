@@ -1,3 +1,5 @@
+-- BUỔI - 3
+
 -- Kiểm tra version
 SELECT VERSION();
 
@@ -120,6 +122,8 @@ RIGHT JOIN users ON orders.users_id = users.users_id
 SELECT *
 FROM orders
 CROSS JOIN users
+
+-- BUỔI - 4
 
 -- GROUP BY: sẽ nhóm những dữ liệu giống nhau và thường được sử dụng với COUNT(), MAX(), MIN(), SUM(), AVG()
 -- Query 1 ERROR at Line 125: : Column 'users_id' in group statement is ambiguous
