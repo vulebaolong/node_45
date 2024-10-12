@@ -1,0 +1,47 @@
+export const ENDPOINT = {
+   AUTH: {
+      BASE: `auth`,
+      LOGIN: () => `${ENDPOINT.AUTH.BASE}/login`,
+      REGISTER: () => `${ENDPOINT.AUTH.BASE}/register`,
+      REFRESH_TOKEN: () => `${ENDPOINT.AUTH.BASE}/refresh-token`,
+      GET_INFO: () => `${ENDPOINT.AUTH.BASE}/get-info`,
+      FACEBOOK_LOGIN: () => `${ENDPOINT.AUTH.BASE}/facebook-login`,
+      GOOGLE_LOGIN: () => `${ENDPOINT.AUTH.BASE}/google-login`,
+      RESET_PASSWORD: () => `${ENDPOINT.AUTH.BASE}/reset-password`,
+      SEND_EMAIL: () => `${ENDPOINT.AUTH.BASE}/send-email`,
+   },
+   TWO_FA: {
+      BASE: `two-fa`,
+      CHECK_2FA_BEFORE_LOGIN: () => `${ENDPOINT.TWO_FA.BASE}/check-2fa-before-login`,
+      ON_OFF_2FA: () => `${ENDPOINT.TWO_FA.BASE}/on-off-2fa`,
+      GET_QR_2FA: () => `${ENDPOINT.TWO_FA.BASE}/get-qr`,
+   },
+   VIDEO: {
+      VIDEO_LIST_TEST: `video-list`,
+      VIDEO_TYPE_TEST: `video-type`,
+
+      VIDEO_LIST: `video/video-list`,
+      VIDEO_TYPE: `video/video-type`,
+      VIDEO_DETAIL: `video/video-detail`,
+      VIDEO_COMMENT: `video/video-comment`,
+      VIDEO_COMMENT_LIST: `video/video-comment-list`,
+      VIDEO_LIKE: `video/video-like`,
+      VIDEO_DISLIKE: `video/video-dislike`,
+      VIDEO_GET_LIKE: `video/video-like`,
+      VIDEO_GET_TOAL_LIKE: `video/video-total-like`,
+   },
+   SESSION_LOGIN: {
+      LIST: `session-login/`,
+      LOGOUT_DEVICE: `session-login/logout-device`,
+   },
+   CHAT: {
+      BASE: (id = "") => `/chat/${id}`,
+   },
+   USER: `user`,
+   UPLOAD_AVATAR_LOCAL: `user/avatar-local`,
+   UPLOAD_AVATAR_CLOUD: `user/avatar-cloud`,
+   ROLE: `role`,
+   TOGGLE_PERMISSION: `role/toggle-permission`,
+   PERMISSION_GROUP_BY_MODULE: `permission/group-by-module`,
+   PAYMENT_MOMO: `payment/momo-pay`,
+};
