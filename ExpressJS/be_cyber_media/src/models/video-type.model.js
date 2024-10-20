@@ -39,4 +39,13 @@ const videoTypeModel = sequelize.define(
    }
 );
 
-export default videoTypeModel
+videoTypeModel
+   .sync()
+   .then(() => {
+      console.log(`Đồng bộ table video-type thành công`);
+   })
+   .catch((err) => {
+      console.log(`Đồng bộ table video-type KHÔNG thành công`, err);
+   });
+
+export default videoTypeModel;

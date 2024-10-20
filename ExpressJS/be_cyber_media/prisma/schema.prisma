@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  user_id     Int       @id @default(autoincrement())
+  email       String    @db.VarChar(255)
+  pass_word   String?   @db.VarChar(255)
+  full_name   String    @db.VarChar(255)
+  avatar      String?   @db.VarChar(255)
+  goole_id    String?   @db.VarChar(255)
+  face_app_id String?   @db.VarChar(255)
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+  updated_at  DateTime? @default(now()) @db.Timestamp(0)
+  videos      videos[]
+}
+
+model video_type {
+  type_id    Int       @id @default(autoincrement())
+  type_name  String    @db.VarChar(255)
+  icon       String?   @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  videos     videos[]
+}
+
+model videos {
+  video_id    Int         @id @default(autoincrement())
+  video_name  String      @db.VarChar(255)
+  description String?     @db.Text
+  thumbnail   String?     @db.VarChar(255)
+  views       Int?        @default(0)
+  source      String      @db.VarChar(255)
+  type_id     Int?
+  user_id     Int?
+  created_at  DateTime?   @default(now()) @db.Timestamp(0)
+  updated_at  DateTime?   @default(now()) @db.Timestamp(0)
+  video_type  video_type? @relation(fields: [type_id], references: [type_id], onDelete: NoAction, onUpdate: NoAction, map: "videos_ibfk_1")
+  users       users?      @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "videos_ibfk_2")
+
+  @@index([type_id], map: "type_id")
+  @@index([user_id], map: "user_id")
+}

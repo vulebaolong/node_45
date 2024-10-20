@@ -7,6 +7,8 @@
 import express from "express";
 import cors from "cors";
 import rootRouter from "./src/routers/root.router.js";
+import { responseError } from "./src/common/helpers/response.helper.js";
+import { handlerError } from "./src/common/helpers/error.helper.js";
 
 const app = express();
 
@@ -20,19 +22,21 @@ app.use(
    })
 );
 
-app.use(rootRouter)
+app.use(rootRouter);
+
+app.use(handlerError);
 
 const PORT = 3069;
 app.listen(PORT, () => {
    console.log(`Server online at port ${PORT}`);
 });
 
-
-
-
-
-
-
+/**
+ * PRISMA
+ * B1: npx prisma init
+ * B2: npx prisma db pull => kéo table vào file schema.prisma
+ * B3: npx prisma generate => tạo object giống vói table bên trong db
+ */
 
 // // 4 cách nhận dữ liệu
 // /**

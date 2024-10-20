@@ -12,10 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^5.21.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "mysql2": "^3.11.3",
     "nodemon": "^3.1.7",
+    "prisma": "^5.21.1",
     "sequelize": "^6.37.4"
   }
 }
