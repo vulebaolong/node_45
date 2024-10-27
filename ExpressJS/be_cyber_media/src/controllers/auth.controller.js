@@ -11,6 +11,24 @@ const authController = {
          next(error)
       } 
    },
+   login: async (req, res, next) => {
+      try {
+         const result = await authService.login(req);
+         const resData = responseSuccess(result, `Đăng nhập thành công`);
+         res.status(resData.code).json(resData);
+      } catch (error) {
+         next(error)
+      } 
+   },
+   loginFacebook: async (req, res, next) => {
+      try {
+         const result = await authService.loginFacebook(req);
+         const resData = responseSuccess(result, `Đăng nhập facebook thành công`);
+         res.status(resData.code).json(resData);
+      } catch (error) {
+         next(error)
+      } 
+   },
 }
 
 export default authController

@@ -5,4 +5,8 @@ const authRouter = express.Router()
 
 authRouter.post('/register', authController.register)
 
+authRouter.post('/login', authController.login)
+
+authRouter.post('/facebook-login', authController.loginFacebook)
+
 export default authRouter
