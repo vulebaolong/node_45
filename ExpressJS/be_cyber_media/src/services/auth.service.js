@@ -110,7 +110,7 @@ const authService = {
          // tạo middlware protect
          //       - tạo class lỗi UnAuthorizedError
          //       - tạo class lỗi ForbiddenError
-         // => forgot password
+         // => send mail chào mừng với login
       } else {
          // Người dùng chưa tồn tại tạo mới
          await prisma.users.create({
