@@ -105,6 +105,12 @@ const authService = {
 
       if (userExists) {
          // hôm sau xử lý 
+         // gom tạo 2 token ra service token
+         // mang khoá bí mật ra file env
+         // tạo middlware protect
+         //       - tạo class lỗi UnAuthorizedError
+         //       - tạo class lỗi ForbiddenError
+         // => forgot password
       } else {
          // Người dùng chưa tồn tại tạo mới
          await prisma.users.create({
