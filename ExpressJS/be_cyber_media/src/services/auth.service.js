@@ -1,7 +1,9 @@
-import { BadRequestError } from "../common/helpers/error.helper.js";
+import { BadRequestError, UnauthorizedError } from "../common/helpers/error.helper.js";
 import prisma from "../common/prisma/init.prisma.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import tokenService from "./token.service.js";
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../common/constant/app.constant.js";
 
 const authService = {
    register: async (req) => {
@@ -62,27 +64,9 @@ const authService = {
       if (!isPassword) throw new BadRequestError(`Mật khẩu không chính xác`);
 
       // Bước 4: tạo accessToken và RefreshToken
-      // để tăng trải nghiệm người dùng vì nếu không có token thì mỗi lần gọi api phải gửi email và password, thì thay vì vậy FE chỉ cần gửi token kèm theo mỗi api
-      // chỉ để chứng mình rằng người dùng đã đăng nhập thành công
-      // cho nên mình sẽ cấp token khi đã xử lý logic kiểm tra email, password thành công
-      // => cấp token lúc login thành công
-      const accessToken = jwt.sign({ user_id: userExists.user_id }, "ACCESSTOKEN_KHOA_BI_MAT", {
-         expiresIn: "15m",
-      });
+      const tokens = tokenService.createTokens(userExists);
 
-      // refreshToken: sẽ có nhiệm vụ bảo vệ accessToken bằng cách làm mới, bởi vì mình sẽ giảm thời gian sống của access xuống mức thấp nhất
-      //  khi giảm access xuống mức thấp nhất thì mình sẽ cần có refreshToken để làm mới, nếu không có refreshToken, thì khi access hết hạn người dùng phải đăng nhập lại
-      //  mà nếu access có thời giạn quá thấp ví dụ 1s, thì cứ 1s người dùng đăng nhập lại
-      //       - nếu hết hạn: trả 401 logout người dùng
-      //       - nếu không hợp lệ (khoá bí mật): 401 logout người dùng
-      const refreshToken = jwt.sign({ user_id: userExists.user_id }, "REFRESHTOKEN_KHOA_BI_MAT", {
-         expiresIn: "7d",
-      });
-
-      return {
-         accessToken: accessToken,
-         refreshToken: refreshToken,
-      };
+      return tokens;
    },
    // Sau khi tạo ứng dụng thành công
    // Ở trang dashbord chọn Trường hợp ứng dụng
@@ -100,20 +84,33 @@ const authService = {
          select: {
             user_id: true,
             pass_word: true,
+            full_name: true,
+            avatar: true,
          },
       });
 
       if (userExists) {
-         // hôm sau xử lý 
+         // hôm sau xử lý
          // gom tạo 2 token ra service token
          // mang khoá bí mật ra file env
          // tạo middlware protect
          //       - tạo class lỗi UnAuthorizedError
          //       - tạo class lỗi ForbiddenError
          // => send mail chào mừng với login
+
+         // sẽ update nếu full_name, avatar chưa có
+         await prisma.users.update({
+            where: {
+               user_id: userExists.user_id,
+            },
+            data: {
+               full_name: userExists.full_name ? undefined : name,
+               avatar: userExists.avatar ? undefined : picture.data.url,
+            },
+         });
       } else {
          // Người dùng chưa tồn tại tạo mới
-         await prisma.users.create({
+         userExists = await prisma.users.create({
             data: {
                face_app_id: id,
                full_name: name,
@@ -123,14 +120,35 @@ const authService = {
          });
       }
 
-      const accessToken = jwt.sign({ user_id: userExists.user_id }, "ACCESSTOKEN_KHOA_BI_MAT", {
-         expiresIn: "15m",
+      const tokens = tokenService.createTokens(userExists);
+
+      return tokens;
+   },
+   refreshToken: async (req) => {
+      console.log({
+         headers: req.headers,
       });
-      const refreshToken = jwt.sign({ user_id: userExists.user_id }, "REFRESHTOKEN_KHOA_BI_MAT", {
-         expiresIn: "7d",
+      const refreshToken = req.headers?.authorization?.split(" ")[1];
+      const accessToken = req.headers[`x-access-token`];
+
+      console.log({ refreshToken, accessToken });
+      if (!refreshToken) throw new UnauthorizedError();
+      if (!accessToken) throw new UnauthorizedError();
+
+      const decodeRefreshToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+      const decodeAccessToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET, { ignoreExpiration: true });
+
+      if (decodeRefreshToken.user_id !== decodeAccessToken.user_id) throw new UnauthorizedError();
+
+      const user = await prisma.users.findUnique({
+         where: {
+            user_id: decodeRefreshToken.user_id,
+         },
       });
 
-      return { accessToken, refreshToken };
+      const tokens = tokenService.createTokens(user);
+
+      return tokens;
    },
 };
 

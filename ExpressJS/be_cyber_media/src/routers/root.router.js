@@ -31,5 +31,4 @@ rootRouter.use("/video", videoRouter);
 
 rootRouter.use("/auth", authRouter)
 
-
 export default rootRouter;

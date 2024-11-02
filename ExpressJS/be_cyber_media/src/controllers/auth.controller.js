@@ -29,6 +29,15 @@ const authController = {
          next(error)
       } 
    },
+   refreshToken: async (req, res, next) => {
+      try {
+         const result = await authService.refreshToken(req);
+         const resData = responseSuccess(result, `refresh token thành công`);
+         res.status(resData.code).json(resData);
+      } catch (error) {
+         next(error)
+      } 
+   },
 }
 
 export default authController
