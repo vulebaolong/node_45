@@ -75,7 +75,42 @@ INSERT INTO videos (video_id, video_name, thumbnail, description, views, source,
 (17, 'Bản tình ca của Đá - [Official Audio] - HwangCho - Đường anh đi toàn ke với đá…', 'https://img.youtube.com/vi/ZyYmIiYEK7I/maxresdefault.jpg', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure rem, tempora quia culpa praesentium totam id adipisci. Itaque voluptatibus aspernatur vitae quisquam cumque? Quaerat fugit tempora recusandae illo quod aspernatur impedit cumque exercitationem vel! Doloribus nemo suscipit eius deserunt eveniet hic, tempore odit fugiat soluta itaque, sequi et voluptatem! Consequuntur, autem deleniti commodi placeat sed numquam, illo harum unde dolore officia laborum accusamus animi libero? Blanditiis ratione esse nulla ut aperiam quasi non distinctio animi minus qui ducimus sit odit nobis officia, facere voluptates! Minima ut animi facere enim modi autem aliquid, numquam amet sapiente iure suscipit quisquam delectus tempore. Fuga, quae, consequuntur nam aliquid est fugiat nulla laudantium veritatis quos enim quibusdam impedit porro doloribus dolorum libero, dignissimos atque. Placeat ipsa saepe dolore. Repellat, ea. Doloremque repellendus facilis rem aliquam suscipit iusto exercitationem, magnam hic. Officia dolores corporis dolore nam magni quia magnam at dicta cumque accusantium eos assumenda expedita, ducimus voluptates porro est dignissimos! Saepe facere fugiat atque, numquam tempora eius? Ut ipsum beatae porro odio aspernatur, iure voluptatum. Libero adipisci temporibus eius dolore recusandae, veniam obcaecati soluta fuga, animi totam beatae quisquam modi officiis magnam quibusdam nostrum. Laborum porro quibusdam deserunt nesciunt perspiciatis totam libero cupiditate esse.', 1500, 'https://www.youtube.com/watch?v=ZyYmIiYEK7I', 1, 6);
 
 
+CREATE TABLE roles (
+	role_id INT PRIMARY KEY AUTO_INCREMENT,
 
+	`name` VARCHAR(255),
+	description VARCHAR(255),
+	is_active BOOLEAN DEFAULT TRUE,
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
+CREATE TABLE permissions (
+	permission_id INT PRIMARY KEY AUTO_INCREMENT,
+
+	`name` VARCHAR(255),
+	endpoint VARCHAR(255),
+	method VARCHAR(255),
+	module VARCHAR(255),
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
+CREATE TABLE role_permissions (
+	role_permissions_id INT PRIMARY KEY AUTO_INCREMENT,
+
+	role_id INT,
+	permission_id INT,
+	is_active BOOLEAN DEFAULT TRUE,
+
+	FOREIGN KEY (role_id) REFERENCES roles(role_id),
+	FOREIGN KEY (permission_id) REFERENCES permissions(permission_id),
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
 
 
 
