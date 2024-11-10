@@ -76,7 +76,7 @@ export default function Chat() {
          // Lắng nghe tin nhắn từ server
          socketRef.current.on("receive-message", (data: any) => {
             setListMessage((prev) => {
-               if (prev === null) return null;
+               if (prev === null) return [data];
                return [...prev, data];
             });
             // console.log(data);

@@ -9,18 +9,20 @@ datasource db {
 }
 
 model users {
-  user_id     Int       @id @default(autoincrement())
-  email       String    @db.VarChar(255)
-  pass_word   String?   @db.VarChar(255)
-  full_name   String    @db.VarChar(255)
-  avatar      String?   @db.VarChar(255)
-  google_id   String?   @db.VarChar(255)
-  face_app_id String?   @db.VarChar(255)
-  created_at  DateTime? @default(now()) @db.Timestamp(0)
-  updated_at  DateTime? @default(now()) @db.Timestamp(0)
-  role_id     Int       @default(2)
-  roles       roles     @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
-  videos      videos[]
+  user_id                              Int       @id @default(autoincrement())
+  email                                String    @db.VarChar(255)
+  pass_word                            String?   @db.VarChar(255)
+  full_name                            String    @db.VarChar(255)
+  avatar                               String?   @db.VarChar(255)
+  google_id                            String?   @db.VarChar(255)
+  face_app_id                          String?   @db.VarChar(255)
+  created_at                           DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                           DateTime? @default(now()) @db.Timestamp(0)
+  role_id                              Int       @default(2)
+  chats_chats_user_id_senderTousers    chats[]   @relation("chats_user_id_senderTousers")
+  chats_chats_user_id_recipientTousers chats[]   @relation("chats_user_id_recipientTousers")
+  roles                                roles     @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "users_ibfk_1")
+  videos                               videos[]
 
   @@index([role_id], map: "role_id")
 }
@@ -86,4 +88,18 @@ model roles {
   updated_at       DateTime?          @default(now()) @db.Timestamp(0)
   role_permissions role_permissions[]
   users            users[]
+}
+
+model chats {
+  chat_id                              Int       @id @default(autoincrement())
+  message                              String?   @db.LongText
+  user_id_sender                       Int?
+  user_id_recipient                    Int?
+  created_at                           DateTime? @default(now()) @db.Timestamp(0)
+  updated_at                           DateTime? @default(now()) @db.Timestamp(0)
+  users_chats_user_id_senderTousers    users?    @relation("chats_user_id_senderTousers", fields: [user_id_sender], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "chats_ibfk_1")
+  users_chats_user_id_recipientTousers users?    @relation("chats_user_id_recipientTousers", fields: [user_id_recipient], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "chats_ibfk_2")
+
+  @@index([user_id_recipient], map: "user_id_recipient")
+  @@index([user_id_sender], map: "user_id_sender")
 }

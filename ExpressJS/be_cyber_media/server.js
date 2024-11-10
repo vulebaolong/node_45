@@ -9,8 +9,11 @@ import cors from "cors";
 import rootRouter from "./src/routers/root.router.js";
 import { responseError } from "./src/common/helpers/response.helper.js";
 import { handlerError } from "./src/common/helpers/error.helper.js";
+import { createServer } from "node:http";
+import initSocket from "./src/common/socket/init.socket.js";
 
 const app = express();
+const server = createServer(app);
 
 // sử dụng middleware chuyển JSON sang đối tượng JS (object, ...)
 // sử dụng với body                                                                                                                                                        AV
@@ -26,8 +29,10 @@ app.use(rootRouter);
 
 app.use(handlerError);
 
+initSocket(server);
+
 const PORT = 3069;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
    console.log(`Server online at port ${PORT}`);
 });
 

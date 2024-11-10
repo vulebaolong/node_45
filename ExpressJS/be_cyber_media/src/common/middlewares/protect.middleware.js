@@ -18,6 +18,13 @@ const protect = async (req, res, next) => {
          where: {
             user_id: decodeToken.user_id,
          },
+         select: {
+            roles: true,
+            user_id: true,
+            full_name: true,
+            avatar: true,
+            email: true
+         }
       });
       if (!user) throw new ForbiddenError();
 

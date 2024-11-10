@@ -113,6 +113,18 @@ CREATE TABLE role_permissions (
 )
 
 
+CREATE TABLE chats (
+	chat_id INT PRIMARY KEY AUTO_INCREMENT,
 
+	message LONGTEXT,
+	user_id_sender INT,
+	user_id_recipient INT,
+
+	FOREIGN KEY (user_id_sender) REFERENCES users(user_id),
+	FOREIGN KEY (user_id_recipient) REFERENCES users(user_id),
+	
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
 
 
