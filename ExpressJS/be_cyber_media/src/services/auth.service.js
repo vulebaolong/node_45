@@ -35,6 +35,8 @@ const authService = {
          },
       });
 
+      // userNew.pass_word = 123;
+
       return userNew;
    },
    login: async (req) => {
