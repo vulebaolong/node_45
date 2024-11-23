@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { TBodyCreateVideoType } from './video-type.controler';
+import CreateVideoTypeDto from './dto/create-video-type.dto';
 
 @Injectable()
 export class VideoTypeService {
@@ -20,7 +20,7 @@ export class VideoTypeService {
     return videoTypeDetail;
   }
 
-  async createVideoType(body: TBodyCreateVideoType) {
+  async createVideoType(body: CreateVideoTypeDto) {
     const videpTypeNew = await this.prisma.video_type.create({
       data: {
         type_name: body.type_name,

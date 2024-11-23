@@ -10,13 +10,16 @@ import {
 } from '@nestjs/common';
 import { VideoTypeService } from './video-type.service';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
+import CreateVideoTypeDto from './dto/create-video-type.dto';
 
-export type TBodyCreateVideoType = {
-  type_name: string;
-  icon: string;
-};
+// export type TBodyCreateVideoType = {
+//   type_name: string;
+//   icon: string;
+// };
 
 @Controller('video')
+@ApiTags(`Video-type`)
 export class VideoTypeController {
   constructor(public videoTypeService: VideoTypeService) {}
 
@@ -38,7 +41,7 @@ export class VideoTypeController {
   }
 
   @Post(`create-video-type`)
-  async createVideoType(@Body() body: TBodyCreateVideoType) {
+  async createVideoType(@Body() body: CreateVideoTypeDto) {
     console.log({ body });
     return await this.videoTypeService.createVideoType(body);
   }

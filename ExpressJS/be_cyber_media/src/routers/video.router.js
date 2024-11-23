@@ -7,7 +7,7 @@ const videoRouter = express.Router();
 
 videoRouter.use(protect);
 
-videoRouter.get(`/video-list`, videoController.listVideo);
+videoRouter.get(`/video-list`,videoController.listVideo);
 videoRouter.get(`/video-type`, videoController.videoType);
 
 export default videoRouter;
