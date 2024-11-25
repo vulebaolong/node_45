@@ -25,6 +25,11 @@ export class AuthService {
   ) {}
 
   async login(loginDto: LoginDto) {
+    // Lỗi kiểm soát được
+    throw new BadRequestException(`Lỗi kiểm soát được`);
+    // Lỗi không kiểm soát được
+    // throw new Error(`Lỗi không kiểm soát được`)
+
     // Bước 1: nhận dữ liệu từ body
     const { email, pass_word } = loginDto;
     console.log({ email, pass_word });
