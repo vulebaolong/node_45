@@ -13,7 +13,7 @@ const videoController = {
    listVideo: async (req, res, next) => {
       try {
          const result = await videoService.listVideo(req);
-         const resData = responseSuccess(result, `Lấy danh sách video thành công`);
+         const resData = responseSuccess(result, `Lấy danh sách video thành công 3333333333333`);
          res.status(resData.code).json(resData);
       } catch (error) {
          next(error)

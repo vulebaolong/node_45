@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  be-compose:
+    image: img-be_cyber_media
+    container_name: cons-be_cyber_media
+    ports:
+      - "3070:3069"
+    depends_on:
+      - mysql-compose
+    command: ["npm", "run", "start"]
+
+  mysql-compose:
+    image: mysql
+    container_name: some-mysql-compose
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+    ports:
+      - "3307:3306"
+
+    

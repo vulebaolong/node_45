@@ -53,7 +53,7 @@ initSocket(server);
 
 const PORT = 3069;
 server.listen(PORT, () => {
-   console.log(`Server online at port ${PORT}`);
+   console.log(`Server online at port 1234 ${PORT}`);
 });
 
 /**

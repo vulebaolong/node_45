@@ -1,4 +1,15 @@
 const video = {
+   "/video/video-list": {
+      get: {
+         tags: [`Videos`],
+         responses: {
+            200: {
+               description: `oke`,
+            },
+         },
+      },
+   },
+
    "/video/video-list/{id}": {
       get: {
          security: [

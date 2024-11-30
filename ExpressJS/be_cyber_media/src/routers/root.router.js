@@ -10,7 +10,20 @@ import userRouter from "./user.router.js";
 const rootRouter = express.Router();
 
 rootRouter.use("/api-docs", swaggerUi.serve);
-rootRouter.get("/api-docs", swaggerUi.setup(swaggerDocument, { swaggerOptions: { persistAuthorization: true } }));
+rootRouter.get("/api-docs", (req, res, next) => {
+   const urlServer = `${req.protocol}://${req.get("host")}`;
+   // console.log({urlServer});
+
+   swaggerDocument.servers = [
+      // ...swaggerDocument.servers,
+      {
+         url: urlServer,
+         description: `url server deploy`,
+      },
+   ]
+
+   swaggerUi.setup(swaggerDocument, { swaggerOptions: { persistAuthorization: true } })(req, res);
+});
 
 rootRouter.get(
    `/`,
