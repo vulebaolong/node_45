@@ -30,6 +30,9 @@
  * - chạy docker compose:
  * docker compose up -d
  * 
+ * - dừng docker compose
+ * docker compose down
+ * 
  * 
  * 
  */
