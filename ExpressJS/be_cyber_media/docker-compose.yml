@@ -2,12 +2,18 @@ version: "3"
 
 services:
   be-compose:
-    image: img-be_cyber_media
+    image: vulebaolong/img-be_cyber_media:latest
     container_name: cons-be_cyber_media
     ports:
       - "3070:3069"
     depends_on:
       - mysql-compose
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - ACCESS_TOKEN_EXPIRES=${ACCESS_TOKEN_EXPIRES}
+      - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
+      - REFRESH_TOKEN_EXPIRES=${REFRESH_TOKEN_EXPIRES}
     command: ["npm", "run", "start"]
 
   mysql-compose:
@@ -17,5 +23,3 @@ services:
       - MYSQL_ROOT_PASSWORD=1234
     ports:
       - "3307:3306"
-
-    
