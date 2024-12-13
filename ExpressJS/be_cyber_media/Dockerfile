@@ -1,5 +1,7 @@
 
 # alpine: chỉ định phiên bản node rút gọn (~5mb)
+# nên sài node:20.1.0-alpine để tránh lỗi prisma
+
 FROM node:alpine
 
 # thiết lập đường dẫn
